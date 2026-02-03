@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36511.14 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git Prg2 Assignment", "Git Prg2 Assignment.csproj", "{8D6DFF00-AE47-49D7-BF65-01C2502A12F4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D6DFF00-AE47-49D7-BF65-01C2502A12F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D6DFF00-AE47-49D7-BF65-01C2502A12F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D6DFF00-AE47-49D7-BF65-01C2502A12F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D6DFF00-AE47-49D7-BF65-01C2502A12F4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {787E2A47-344B-4EB5-B0C8-0409E9CBB6E1}
+	EndGlobalSection
+EndGlobal
