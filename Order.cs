@@ -19,7 +19,7 @@ namespace Git_Prg2_Assignment
         private string orderPaymentMethod;
         private bool orderPaid;
         public List<OrderedFoodItem> OrderedFoodItems_List { get; set; } = new List<OrderedFoodItem>();
-        public Restaurant Restaurant { get; set; }
+        public Restaurant restaurant { get; set; }
         public Customer Customer { get; set; }
 
 

@@ -39,13 +39,9 @@ namespace Git_Prg2_Assignment
 
         public void DisplayAllOrders()
         {
-            Console.WriteLine("All Orders");
-            Console.WriteLine("==========");
-            Console.WriteLine($"{"Order ID",-10} {"Customer",-15} {"Restaurant",-20} {"Delivery Date/Time",-25} {"Amount",-10} {"Status",-10}");
-            Console.WriteLine($"{"--------",-10} {"----------",-15} {"-------------",-20} {"------------------",-25} {"------",-10} {"---------",-10}");
             foreach (Order order in Order_List)
             {
-                Console.WriteLine($"{order.OrderId,-10} {CustomerName,-15} {order.Restaurant.RestaurantName,-20} {order.DeliveryDateTime.ToString("dd/MM/yyyy hh:mm"),-25} {order.CalculateOrderTotal(),-10} {order.OrderStatus,-10}");
+                Console.WriteLine($"{order.OrderId,-10} {CustomerName,-15} {order.restaurant.RestaurantName,-20} {order.DeliveryDateTime.ToString("dd/MM/yyyy hh:mm"),-25} {order.CalculateOrderTotal(),-10} {order.OrderStatus,-10}");
             }
         }
 

@@ -5,11 +5,11 @@
 //==========================================================
 namespace Git_Prg2_Assignment
 {
-    class Menu : Restaurant
+    public class Menu 
     {
         private string menuId;
         private string menuName;
-        public List<FoodItem> FoodItems_List { get; set; } = new List<FoodItem>();
+        public List<FoodItem> FoodItem_List { get; set; } = new List<FoodItem>();
 
         public string MenuId
         {
@@ -30,22 +30,39 @@ namespace Git_Prg2_Assignment
 
         public void AddFoodItem(FoodItem fooditem)
         {
-            FoodItems_List.Add(fooditem);
+            FoodItem_List.Add(fooditem);
         }
-        public void RemoveFoodItem(FoodItem fooditem)
+        public bool RemoveFoodItem(FoodItem remove_fooditem)
         {
-            FoodItems_List.Remove(fooditem);
+            bool remove_item = false;
+            int count = 0;
+            foreach (FoodItem foodItem in FoodItem_List)
+            {
+                if (foodItem.ItemName == remove_fooditem.ItemName)
+                {
+                    remove_item = true;
+                    break;
+                }
+                count += 1;
+            }
+
+            if (remove_item == true)
+            {
+                FoodItem_List.RemoveAt(count);
+            }
+
+            return remove_item;
         }
         public void DisplayFoodItems()
         {
-            foreach (FoodItem item in FoodItems_List)
+            foreach (FoodItem foodItem in FoodItem_List)
             {
-                Console.WriteLine(item.ToString());
+                Console.WriteLine($"  - {foodItem.ItemName}: {foodItem.ItemDesc} - ${foodItem.ItemPrice.ToString("0.00")}");
             }
         }
         public override string ToString()
         {
-            return $"MenuId: {MenuId}, MenuName: {MenuName}, FoodItems_Count: {FoodItems_List.Count}";
+            return $"MenuId: {MenuId}, MenuName: {MenuName}, FoodItems_Count: {FoodItem_List.Count}";
         }
 
     }

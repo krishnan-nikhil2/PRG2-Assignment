@@ -5,14 +5,19 @@
 //==========================================================
 namespace Git_Prg2_Assignment
 {
-    class Restaurant : Order
+    public class Restaurant
     {
         private string restaurantId;
         private string restaurantName;
         private string restaurantEmail;
-        public List<Order> orderList { get; set; } = new List<Order>();
-        public List<SpecialOffer> specialOfferList { get; set; } = new List<SpecialOffer>();
-        public List<Menu> menuList { get; set; } = new List<Menu>();
+        public Queue<Order> Order_Queue { get; set; } = new Queue<Order>();
+        public List<SpecialOffer> SpecialOffer_List { get; set; } = new List<SpecialOffer>();
+        public List<Menu> Menu_List { get; set; } = new List<Menu>();
+
+        public Menu menu { get; set; } = new Menu("1", "menu1");
+
+
+
 
         public string RestaurantId
         {
@@ -34,37 +39,56 @@ namespace Git_Prg2_Assignment
             RestaurantId = restaurantid;
             RestaurantName = restaurantname;
             RestaurantEmail = restaurantemail;
+            Menu_List.Add(menu);
         }
         public Restaurant() { }
 
         public void DisplayOrders()
         {
-            foreach (Order order in orderList)
+            foreach (Order order in Order_Queue)
             {
                 Console.WriteLine(order.ToString());
             }
         }
         public void DisplaySpecialOffers()
         {
-            foreach (SpecialOffer offer in specialOfferList)
+            foreach (SpecialOffer offer in SpecialOffer_List)
             {
                 Console.WriteLine(offer.ToString());
             }
         }
         public void DisplayMenu()
         {
-            foreach (Menu item in menuList)
+            Console.WriteLine($"Restaurant: {RestaurantName} ({RestaurantId})");
+            foreach (Menu menu in Menu_List)
             {
-                Console.WriteLine(item.ToString());
+                menu.DisplayFoodItems();
             }
         }
         public void AddMenu(Menu menu)
         {
-            menuList.Add(menu);
+            Menu_List.Add(menu);
         }
-        public void RemoveMenu(Menu menu)
+        public bool RemoveMenu(Menu remove_menu)
         {
-            menuList.Remove(menu);
+            bool remove_menu_result = false;
+            int count = 0;
+            foreach (Menu menu in Menu_List)
+            {
+                if (menu.MenuId == remove_menu.MenuId)
+                {
+                    remove_menu_result = true;
+                    break;
+                }
+                count += 1;
+            }
+
+            if (remove_menu_result == true)
+            {
+                Menu_List.RemoveAt(count);
+            }
+
+            return remove_menu_result;
         }
         public override string ToString()
         {

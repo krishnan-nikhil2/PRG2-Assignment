@@ -5,11 +5,15 @@
 //==========================================================
 namespace Git_Prg2_Assignment
 {
-    class SpecialOffer : Restaurant
+    public class SpecialOffer
     {
         private string offerCode;
         private string offerDesc;
         private double discount;
+
+        public List<Order> Order_List { get; set; } = new List<Order>();
+
+
         public string OfferCode
         {
             get { return offerCode; }
@@ -32,6 +36,17 @@ namespace Git_Prg2_Assignment
             Discount = discount;
         }
         public SpecialOffer() { }
+
+
+        public override string ToString()
+        {
+            return $"OfferCode: {OfferCode}, OfferDesc: {OfferDesc}, Discount: {Discount}";
+        }
+
+
+
+
+
 
 
     }
