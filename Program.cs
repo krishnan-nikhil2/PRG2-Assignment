@@ -63,7 +63,7 @@ void LoadCustomersAndOrders()
         while ((line = sr.ReadLine()) != null)
         {
             string[] customer_attributes = line.Split(",");
-            Customer customer = new Customer(customer_attributes[0], customer_attributes[1]);
+            Customer customer = new Customer(customer_attributes[1], customer_attributes[0]);
             Customer_List.Add(customer);
         }
     }
@@ -113,6 +113,7 @@ void LoadCustomersAndOrders()
             {
                 if (restaurant.RestaurantId == order_attributes[2])
                 {
+                    order.restaurant = restaurant;
                     restaurant.Order_Queue.Enqueue(order);
                 }
             }
@@ -122,6 +123,7 @@ void LoadCustomersAndOrders()
             {
                 if (customer.EmailAddress == order_attributes[1])
                 {
+                    order.Customer = customer;
                     customer.AddOrder(order);
                 }
             }
@@ -155,6 +157,7 @@ void Display_Restaurants_and_Menu_Items()
         restaurant.DisplayMenu();
         Console.WriteLine();
     }
+    Console.WriteLine();
 
 }
 
