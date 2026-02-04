@@ -149,7 +149,7 @@ string Display_Gruberoo_Food_deliver_System_Menu()
 
 void Display_Restaurants_and_Menu_Items()
 {
-
+    Console.WriteLine();
     Console.WriteLine("All Restaurants and Menu Items");
     Console.WriteLine("==============================");
     foreach (Restaurant restaurant in Restaurant_List)
@@ -164,14 +164,16 @@ void Display_Restaurants_and_Menu_Items()
 
 void ListAllOrders()
 {
+    Console.WriteLine();
     Console.WriteLine("All Orders");
     Console.WriteLine("==========");
     Console.WriteLine($"{"Order ID",-10} {"Customer",-15} {"Restaurant",-20} {"Delivery Date/Time",-25} {"Amount",-10} {"Status",-10}");
     Console.WriteLine($"{"--------",-10} {"----------",-15} {"-------------",-20} {"------------------",-25} {"------",-10} {"---------",-10}");
-    foreach (Customer customer in Customer_List)
+    foreach (Order order in Order_List)
     {
-        customer.DisplayAllOrders();
+        Console.WriteLine($"{order.OrderId,-10} {order.Customer.CustomerName,-15} {order.restaurant.RestaurantName,-20} {order.DeliveryDateTime.ToString("dd/MM/yyyy HH:mm"),-25} ${order.CalculateOrderTotal().ToString("0.00"),-10} {order.OrderStatus,-10}");
     }
+    Console.WriteLine();
 }
 
 
