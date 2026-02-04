@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-//==========================================================
+﻿//==========================================================
 // Student Number : S10272831G
 // Student Name : Krishnan Nikhil
 // Partner Name : Li Yanjie James
 //==========================================================
 
-namespace S10272831_PRG2Assignment
+namespace Git_Prg2_Assignment
 {
     public class Customer
     {
@@ -52,7 +45,7 @@ namespace S10272831_PRG2Assignment
             Console.WriteLine($"{"--------",-10} {"----------",-15} {"-------------",-20} {"------------------",-25} {"------",-10} {"---------",-10}");
             foreach (Order order in Order_List)
             {
-                Console.WriteLine($"{order.OrderId,-10} {CustomerName,-15} {order.restaurant.RestaurantName,-20} {order.DeliveryDateTime.ToString("dd/MM/yyyy hh:mm"),-25} {order.CalculateOrderTotal(),-10} {order.OrderStatus,-10}");
+                Console.WriteLine($"{order.OrderId,-10} {CustomerName,-15} {order.Restaurant.RestaurantName,-20} {order.DeliveryDateTime.ToString("dd/MM/yyyy hh:mm"),-25} {order.CalculateOrderTotal(),-10} {order.OrderStatus,-10}");
             }
         }
 
