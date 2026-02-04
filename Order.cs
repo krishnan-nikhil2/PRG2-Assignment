@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-
-//==========================================================
+﻿//==========================================================
 // Student Number : S10272831G
 // Student Name : Krishnan Nikhil
 // Partner Name : Li Yanjie James
 //==========================================================
 
 
-namespace S10272831_PRG2Assignment
+namespace Git_Prg2_Assignment
 {
     public class Order
     {
@@ -27,8 +19,8 @@ namespace S10272831_PRG2Assignment
         private string orderPaymentMethod;
         private bool orderPaid;
         public List<OrderedFoodItem> OrderedFoodItems_List { get; set; } = new List<OrderedFoodItem>();
-        public Restaurant restaurant { get; set; }
-        public Customer customer { get; set; }
+        public Restaurant Restaurant { get; set; }
+        public Customer Customer { get; set; }
 
 
 
@@ -82,7 +74,8 @@ namespace S10272831_PRG2Assignment
         }
 
 
-        public Order(int orderid, DateTime orderdatetime, double ordertotal, string orderstatus, DateTime deliverydatetime, string deliveryaddress, string orderpaymentmethod, bool orderpaid)
+        public Order(int orderid, DateTime orderdatetime, double ordertotal, string orderstatus, 
+            DateTime deliverydatetime, string deliveryaddress, string orderpaymentmethod, bool orderpaid)
         {
             OrderId = orderid;
             OrderDateTime = orderdatetime;

@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-
-//==========================================================
+﻿//==========================================================
 // Student Number : S10272831G
 // Student Name : Krishnan Nikhil
 // Partner Name : Li Yanjie James
 //==========================================================
-
-
-
-namespace S10272831_PRG2Assignment
+namespace Git_Prg2_Assignment
 {
     public class FoodItem
     {
