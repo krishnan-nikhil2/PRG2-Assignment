@@ -261,13 +261,18 @@ void CreateOrder()
         {
             Console.Write("Enter Delivery Date (dd/mm/yyyy): ");
             string_delivery_date = Console.ReadLine();
+            if (string_delivery_date.Split("/").Length != 3)
+            {
+                Console.WriteLine("Please enter the date with slash format");
+                continue;
+            }
             delivery_date = Convert.ToDateTime(string_delivery_date);
             break;
         }
 
         catch (FormatException ex)
         {
-            Console.WriteLine("Please enter the delivery date in the correct format");
+            Console.WriteLine("Please enter the delivery date in the correct format with numbers");
         }
 
 
@@ -318,7 +323,7 @@ void CreateOrder()
     {
         try
         {
-            Console.Write("Enter item number (0 to finish):");
+            Console.Write("Enter item number (0 to finish): ");
             int option = Convert.ToInt32(Console.ReadLine());
             if (option >= 1 && option <= count)
             {
@@ -439,6 +444,9 @@ void CreateOrder()
                     order.DeliveryAddress = delivery_address;
                     order.OrderPaymentMethod = payment_method;
                     order.OrderPaid = true;
+
+                    Console.WriteLine($"Order {order.OrderId} created successfully! Status: Pending");
+                    Console.WriteLine();
 
                     foreach (Restaurant restaurant in Restaurant_List)
                     {
