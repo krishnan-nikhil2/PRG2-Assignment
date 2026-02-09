@@ -29,6 +29,13 @@ namespace Git_Prg2_Assignment
             get { return discount; }
             set { discount = value; }
         }
+
+        public SpecialOffer()
+        {
+
+        }
+
+
         public SpecialOffer(string offercode, string offerdesc, double discount)
         {
             OfferCode = offercode;

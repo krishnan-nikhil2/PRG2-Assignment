@@ -34,6 +34,12 @@ namespace Git_Prg2_Assignment
             get { return restaurantEmail; }
             set { restaurantEmail = value; }
         }
+
+        public Restaurant()
+        {
+
+        }
+
         public Restaurant(string restaurantid, string restaurantname, string restaurantemail)
         {
             RestaurantId = restaurantid;
@@ -41,7 +47,7 @@ namespace Git_Prg2_Assignment
             RestaurantEmail = restaurantemail;
             Menu_List.Add(menu);
         }
-        public Restaurant() { }
+        
 
         public void DisplayOrders()
         {

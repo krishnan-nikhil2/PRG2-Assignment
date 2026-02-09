@@ -37,7 +37,11 @@ namespace Git_Prg2_Assignment
             set { customise = value; }
         }
 
-       
+        public FoodItem()
+        {
+
+        }
+
         public FoodItem(string itemname, string itemdesc, double itemprice, string custom)
         {
             ItemName = itemname;

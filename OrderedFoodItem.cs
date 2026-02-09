@@ -27,6 +27,10 @@ namespace Git_Prg2_Assignment
             set { subTotal = value; }
         }
 
+        public OrderedFoodItem() : base()
+        {
+
+        }
 
         public OrderedFoodItem(string itemname, string itemdesc, double itemprice, string custom, int qtyordered, double subtotal) : base(itemname,itemdesc,itemprice,custom)
         {

@@ -25,6 +25,13 @@ namespace Git_Prg2_Assignment
             set { customerName = value; }
         }
 
+
+        public Customer()
+        {
+
+        }
+
+
         public Customer(string emailaddress, string customername)
         {
             EmailAddress = emailaddress;

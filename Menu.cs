@@ -21,12 +21,18 @@ namespace Git_Prg2_Assignment
             get { return menuName; }
             set { menuName = value; }
         }
+
+        public Menu()
+        {
+
+        }
+
         public Menu(string menuid, string menuname)
         {
             MenuId = menuid;
             MenuName = menuname;
         }
-        public Menu() { }
+        
 
         public void AddFoodItem(FoodItem fooditem)
         {

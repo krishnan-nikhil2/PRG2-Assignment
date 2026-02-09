@@ -73,6 +73,10 @@ namespace Git_Prg2_Assignment
             set { orderPaid = value; }
         }
 
+        public Order()
+        {
+
+        }
 
         public Order(int orderid, DateTime orderdatetime, double ordertotal, string orderstatus, 
             DateTime deliverydatetime, string deliveryaddress, string orderpaymentmethod, bool orderpaid)
