@@ -42,7 +42,8 @@ namespace Git_Prg2_Assignment
             OfferDesc = offerdesc;
             Discount = discount;
         }
-        public SpecialOffer() { }
+        
+
 
 
         public override string ToString()
