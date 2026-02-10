@@ -810,206 +810,207 @@ void ModifyOrder()
 
 
         }
-    }
+
+        Console.WriteLine();
 
 
-
-
-
-
-    Console.WriteLine();
-
-
-
-
-    while (true)
-    {
-        try
+        while (true)
         {
-            Console.Write("Modify: [1] Items [2] Address [3] Delivery Time: ");
-            int option = Convert.ToInt32(Console.ReadLine());
-
-
-
-
-            if (option == 1)
+            try
             {
+                Console.Write("Modify: [1] Items [2] Address [3] Delivery Time: ");
+                int option = Convert.ToInt32(Console.ReadLine());
 
 
 
-                while (true)
+
+                if (option == 1)
                 {
-                    try
-                    {
-                        Console.Write("Enter the item number that you want to modify (0 to finish): ");
-                        itemnumber = Convert.ToInt32(Console.ReadLine());
 
-                        if (itemnumber < 0 || itemnumber > Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List.Count)
-                        {
-                            Console.WriteLine("Please only enter a valid item number");
-                            continue;
-                        }
-
-                        break;
-                    }
-
-                    catch (FormatException ex)
-                    {
-                        Console.WriteLine("Please only enter a number");
-                    }
-                }
-
-
-                while (true)
-                {
-                    try
-                    {
-                        Console.Write("Enter new quantity for ordered item: ");
-                        qty = Convert.ToInt32(Console.ReadLine());
-                        if (qty < 0)
-                        {
-                            Console.WriteLine("PLease enter positive number for the quantity");
-                            continue;
-                        }
-
-
-                        break;
-
-                    }
-
-                    catch (FormatException ex)
-                    {
-                        Console.WriteLine("Please only enter a number");
-                    }
-                }
-
-                if (qty > Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered)
-                {
-                    Console.WriteLine($"Additional payment required: ${(qty - Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered) * Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemPrice}");
 
 
                     while (true)
                     {
-                        Console.Write("Proceed to payment? [Y/N]: ");
-
-                        payment_option = Console.ReadLine();
-
-                        if (payment_option != "N" && payment_option != "Y")
+                        try
                         {
-                            Console.WriteLine("Please Enter a valid option");
+                            Console.Write("Enter the item number that you want to modify (0 to finish): ");
+                            itemnumber = Convert.ToInt32(Console.ReadLine());
+
+                            if (itemnumber < 0 || itemnumber > Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List.Count)
+                            {
+                                Console.WriteLine("Please only enter a valid item number");
+                                continue;
+                            }
+
+                            break;
+                        }
+
+                        catch (FormatException ex)
+                        {
+                            Console.WriteLine("Please only enter a number");
+                        }
+                    }
+
+
+                    while (true)
+                    {
+                        try
+                        {
+                            Console.Write("Enter new quantity for ordered item: ");
+                            qty = Convert.ToInt32(Console.ReadLine());
+                            if (qty < 0)
+                            {
+                                Console.WriteLine("PLease enter positive number for the quantity");
+                                continue;
+                            }
+
+
+                            break;
+
+                        }
+
+                        catch (FormatException ex)
+                        {
+                            Console.WriteLine("Please only enter a number");
+                        }
+                    }
+
+                    if (qty > Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered)
+                    {
+                        Console.WriteLine($"Additional payment required: ${(qty - Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered) * Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemPrice}");
+
+
+                        while (true)
+                        {
+                            Console.Write("Proceed to payment? [Y/N]: ");
+
+                            payment_option = Console.ReadLine();
+
+                            if (payment_option != "N" && payment_option != "Y")
+                            {
+                                Console.WriteLine("Please Enter a valid option");
+                            }
+                            else
+                            {
+                                break;
+                            }
+
+                        }
+
+                        if (payment_option == "Y")
+                        {
+                            Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered = qty;
+                            Console.WriteLine();
+                            Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. Changed {Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemName} to {qty}");
+                            Console.WriteLine();
                         }
                         else
                         {
-                            break;
+                            Console.WriteLine();
                         }
 
                     }
 
-                    if (payment_option == "Y")
+                    else if (qty < Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered)
                     {
                         Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered = qty;
+                        Console.WriteLine($"Refund amount: {(Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered - qty) * Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemPrice}");
                         Console.WriteLine();
                         Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. Changed {Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemName} to {qty}");
                         Console.WriteLine();
                     }
-                    else
-                    {
-                        Console.WriteLine();
-                    }
+
+                    Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].SubTotal = Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].CalculateSubTotal();
+                    Customer_List[customer_index].Order_List[order_index].OrderTotal = Customer_List[customer_index].Order_List[order_index].CalculateOrderTotal() + 5.0;
+
+
+
+
+
+
+
 
                 }
 
-                else if (qty < Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered)
+
+
+
+                if (option == 2)
                 {
-                    Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered = qty;
-                    Console.WriteLine($"Refund amount: {(Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered - qty) * Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemPrice}");
+                    while (true)
+                    {
+                        Console.Write("Enter new Address: ");
+                        address = Console.ReadLine();
+                        if (address != "")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Address cannot be empty");
+                        }
+                    }
+
+                    Customer_List[customer_index].Order_List[order_index].DeliveryAddress = address;
+
                     Console.WriteLine();
-                    Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. Changed {Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemName} to {qty}");
-                    Console.WriteLine();
+                    Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. New Delivery Address: {Customer_List[customer_index].Order_List[order_index].DeliveryAddress}");
+
+
+
                 }
 
-                Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].SubTotal = Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].CalculateSubTotal();
-                Customer_List[customer_index].Order_List[order_index].OrderTotal = Customer_List[customer_index].Order_List[order_index].CalculateOrderTotal() + 5.0;
-
-
-
-
-
-
-
-
-            }
-
-
-
-
-            if (option == 2)
-            {
-                while (true)
+                if (option == 3)
                 {
-                    Console.Write("Enter new Address: ");
-                    address = Console.ReadLine();
-                    if (address != "")
+
+
+                    while (true)
                     {
-                        break;
+                        try
+                        {
+                            Console.Write("Enter new Delivery Time (hh:mm): ");
+                            DateTime deliverytime = Convert.ToDateTime(Console.ReadLine());
+                            Order = Customer_List[customer_index].Order_List[order_index];
+                            Customer_List[customer_index].Order_List[order_index].DeliveryDateTime = new DateTime(Order.DeliveryDateTime.Year, Order.DeliveryDateTime.Month, Order.DeliveryDateTime.Day, deliverytime.Hour, deliverytime.Minute, Order.DeliveryDateTime.Second);
+                            Console.WriteLine();
+                            Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. New Delivery Time: {Customer_List[customer_index].Order_List[order_index].DeliveryDateTime.Hour}:{Customer_List[customer_index].Order_List[order_index].DeliveryDateTime.Minute}");
+
+                            break;
+                        }
+                        catch (FormatException ex)
+                        {
+                            Console.WriteLine("Please enter time in the correct format");
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine("Address cannot be empty");
-                    }
+
+
+
                 }
-
-                Customer_List[customer_index].Order_List[order_index].DeliveryAddress = address;
-
-                Console.WriteLine();
-                Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. New Delivery Address: {Customer_List[customer_index].Order_List[order_index].DeliveryAddress}");
-
-
-
-            }
-
-            if (option == 3)
-            {
-
-
-                while (true)
+                if (option != 1 && option != 2 && option != 3)
                 {
-                    try
-                    {
-                        Console.Write("Enter new Delivery Time (hh:mm): ");
-                        DateTime deliverytime = Convert.ToDateTime(Console.ReadLine());
-                        Order = Customer_List[customer_index].Order_List[order_index];
-                        Customer_List[customer_index].Order_List[order_index].DeliveryDateTime = new DateTime(Order.DeliveryDateTime.Year, Order.DeliveryDateTime.Month, Order.DeliveryDateTime.Day, deliverytime.Hour, deliverytime.Minute, Order.DeliveryDateTime.Second);
-                        Console.WriteLine();
-                        Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. New Delivery Time: {Customer_List[customer_index].Order_List[order_index].DeliveryDateTime.Hour}:{Customer_List[customer_index].Order_List[order_index].DeliveryDateTime.Minute}");
-
-                        break;
-                    }
-                    catch (FormatException ex)
-                    {
-                        Console.WriteLine("Please enter time in the correct format");
-                    }
+                    Console.WriteLine("PLease enter a valid option");
+                    continue;
                 }
 
-
+                break;
 
             }
-            if (option != 1 && option != 2 && option != 3)
+
+            catch (FormatException ex)
             {
-                Console.WriteLine("PLease enter a valid option");
-                continue;
+                Console.WriteLine("Please only enter a number");
             }
-
-            break;
 
         }
 
-        catch (FormatException ex)
-        {
-            Console.WriteLine("Please only enter a number");
-        }
 
     }
+        
+
+
+
+
+    
 
 }
 
@@ -1110,6 +1111,117 @@ void DeleteOrder()
 }
 
 
+//(a)  Bulk processing of unprocessed orders for a current day
+void Bulk_Processing_Orders()
+{
+    Console.WriteLine();
+    Console.WriteLine("Bulk Process Orders");
+    Console.WriteLine("===================");
+    Console.WriteLine();
+    Console.WriteLine();
+
+    int totalorder = 0;
+    int totalprocess = 0;
+    int totalprepareprocess = 0;
+    int totalrejectprocess = 0;
+    int totalprepare = 0;
+    int totalreject = 0;
+
+
+    foreach (Restaurant restaurant in Restaurant_List)
+    {
+        int count = 0;
+        int rejected = 0;
+        int preparing = 0;
+        int process = 0;
+        int initialrej = 0;
+        int initialprepare = 0;
+        Console.WriteLine($"Restaurant: {restaurant.RestaurantName} ({restaurant.RestaurantId})");
+        foreach (Order order in restaurant.Order_Queue)
+        {
+            if (order.OrderStatus == "Pending")
+            {
+                Console.WriteLine($"OrderId: {order.OrderId}, OrderStatus: {order.OrderStatus}, OrderDateTime: {order.OrderDateTime}, DeliveryDateTime: {order.DeliveryDateTime}");
+                count += 1;
+            }
+
+        }
+
+        Console.WriteLine($"Total number of Pending orders: {count}");
+
+        foreach (Order order in restaurant.Order_Queue)
+        {
+            if (order.OrderStatus == "Pending")
+            {
+                int hour = order.DeliveryDateTime.Subtract(order.OrderDateTime).Hours;
+                if (hour < 1)
+                {
+                    order.OrderStatus = "Rejected";
+                    rejected += 1;
+                    process += 1;
+                }
+                else
+                {
+                    order.OrderStatus = "Preparing";
+                    preparing += 1;
+                    process += 1;
+                }
+            }
+            else if (order.OrderStatus == "Preparing")
+            {
+                initialprepare += 1;
+            }
+            else if (order.OrderStatus == "Rejected")
+            {
+                initialrej += 1;
+            }
+
+
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Summary Statistics");
+        Console.WriteLine();
+        Console.WriteLine($"Total number of orders for Restaurant ({restaurant.RestaurantId}): {restaurant.Order_Queue.Count}");
+        Console.WriteLine($"Total Number of orders processed: {process}");
+        Console.WriteLine($"Total number of orders processed to Preparing status: {preparing}");
+        Console.WriteLine($"Total number of orders processed to Rejected status: {rejected}");
+        Console.WriteLine($"Total number of orders with Preparing status: {initialprepare + preparing}");
+        Console.WriteLine($"Total number of orders with Rejected status: {initialrej + rejected}");
+
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+
+        totalorder += restaurant.Order_Queue.Count;
+        totalprocess += process;
+        totalprepareprocess += preparing;
+        totalrejectprocess += rejected;
+        totalprepare = totalprepare + preparing + initialprepare;
+        totalreject = totalreject + rejected + initialrej;
+    }
+
+    Console.WriteLine();
+    Console.WriteLine("===================================================================================");
+    Console.WriteLine("Summary Statistics for all restaurants");
+    Console.WriteLine();
+
+    Console.WriteLine($"Total number of orders for all restaurants: {totalorder}");
+    Console.WriteLine($"Total Number of orders processed: {totalprocess}");
+    Console.WriteLine($"Total number of orders processed to Preparing status: {totalprepareprocess}");
+    Console.WriteLine($"Total number of orders processed to Rejected status: {totalrejectprocess}");
+    Console.WriteLine($"Total number of orders with Preparing status: {totalprepare}");
+    Console.WriteLine($"Total number of orders with Rejected status: {totalreject}");
+    Console.WriteLine($"Percentage of automatically processed orders against all orders: {((totalprocess * 1.0) / totalorder) * 100:F2}%");
+
+    Console.WriteLine("===================================================================================");
+
+    Console.WriteLine();
+}
+
+
+
+
 //(b) Display total order amount
 void DisplayTotalOrderAmount()
 {
@@ -1202,6 +1314,10 @@ while (true)
     else if (option == "6")
     {
         DeleteOrder();
+    }
+    else if (option == "7")
+    {
+        Bulk_Processing_Orders();
     }
     else if (option == "8")
     {
