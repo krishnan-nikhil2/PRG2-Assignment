@@ -1305,7 +1305,7 @@ while (true)
     }
     else if (option == "4")
     {
-        UpdateOrdersFile();
+        ProcessOrder();
     }
     else if (option == "5")
     {
