@@ -30,20 +30,18 @@ void LoadRestaurantsAndFoodItems()
     }
 
 
-
-
-    foreach (Restaurant res in Restaurant_List)
+    using (StreamReader sr = new StreamReader("fooditems.csv"))
     {
-        using (StreamReader sr = new StreamReader("fooditems.csv"))
+        string line;
+        line = sr.ReadLine();
+        while ((line = sr.ReadLine()) != null)
         {
-            string line;
-            line = sr.ReadLine();
-            while ((line = sr.ReadLine()) != null)
-            {
 
-                string[] fooditem_attributes = line.Split(",");
-                FoodItem fooditem = new FoodItem(fooditem_attributes[1], fooditem_attributes[2], Convert.ToDouble(fooditem_attributes[3]), "");
-                FoodItem_List.Add(fooditem);
+            string[] fooditem_attributes = line.Split(",");
+            FoodItem fooditem = new FoodItem(fooditem_attributes[1], fooditem_attributes[2], Convert.ToDouble(fooditem_attributes[3]), "");
+            FoodItem_List.Add(fooditem);
+            foreach (Restaurant res in Restaurant_List)
+            {
                 if (fooditem_attributes[0] == res.RestaurantId)
                 {
                     res.Menu_List[0].AddFoodItem(fooditem);
@@ -51,6 +49,8 @@ void LoadRestaurantsAndFoodItems()
             }
         }
     }
+
+
 }
 
 
