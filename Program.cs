@@ -1108,7 +1108,54 @@ void DeleteOrder()
 }
 
 
+//(b) Display total order amount
+void DisplayTotalOrderAmount()
+{
+    Console.Clear();
+    Console.WriteLine("Total Order Amount Report");
+    Console.WriteLine("=========================");
 
+    double grandTotal = 0;
+    double totalRefunds = 0;
+
+    foreach (Restaurant restaurant in Restaurant_List)
+    {
+        Console.WriteLine($"\nRestaurant: {restaurant.RestaurantName}");
+
+        // Calculate delivered orders
+        double restaurantTotal = 0;
+        int deliveredCount = 0;
+        foreach (Order order in restaurant.Order_Queue)
+        {
+            if (order.OrderStatus == "Delivered")
+            {
+                restaurantTotal += order.CalculateOrderTotal();
+                deliveredCount++;
+            }
+        }
+        Console.WriteLine($"Total from delivered orders: ${restaurantTotal:F2} ({deliveredCount} orders)");
+        grandTotal += restaurantTotal;
+
+        // Calculate refunds
+        double restaurantRefunds = 0;
+        int refundCount = 0;
+        foreach (Order order in restaurant.Order_Queue)
+        {
+            if (order.OrderStatus == "Rejected" || order.OrderStatus == "Cancelled")
+            {
+                restaurantRefunds += order.CalculateOrderTotal();
+                refundCount++;
+            }
+        }
+        Console.WriteLine($"Total refunds: ${restaurantRefunds:F2} ({refundCount} orders)");
+        totalRefunds += restaurantRefunds;
+    }
+
+    Console.WriteLine("\n=========================");
+    Console.WriteLine($"Total order amount (all restaurants): ${grandTotal:F2}");
+    Console.WriteLine($"Total refunds (all restaurants): ${totalRefunds:F2}");
+    Console.WriteLine($"Final amount Gruberoo earns: ${grandTotal - totalRefunds:F2}");
+}
 
 LoadRestaurantsAndFoodItems();
 LoadCustomersAndOrders();
