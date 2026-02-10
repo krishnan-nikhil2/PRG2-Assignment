@@ -143,6 +143,8 @@ string Display_Gruberoo_Food_deliver_System_Menu()
     Console.WriteLine("4. Process an order");
     Console.WriteLine("5. Modify an existing order");
     Console.WriteLine("6. Delete an existing order");
+    Console.WriteLine("7. Bulk processing of unprocessed orders for a current day");
+    Console.WriteLine("8. Display Total order amount");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
     string choice = Console.ReadLine();
@@ -1093,7 +1095,7 @@ void DeleteOrder()
     string confirm = Console.ReadLine().ToUpper();
     if (confirm == "Y")
     {
-        double refundAmount = selectedOrder.CalculateOrderTotal(;
+        double refundAmount = selectedOrder.CalculateOrderTotal();
         selectedOrder.OrderStatus = "Cancelled";
         refundStack.Push(selectedOrder);
         Console.WriteLine($"Order {selectedOrder.OrderId} cancelled. Refund of ${refundAmount:F2} processed.");
@@ -1189,9 +1191,21 @@ while (true)
     {
         CreateOrder();
     }
+    else if (option == "4")
+    {
+        UpdateOrdersFile();
+    }
     else if (option == "5")
     {
         ModifyOrder();
+    }
+    else if (option == "6")
+    {
+        DeleteOrder();
+    }
+    else if (option == "8")
+    {
+        DisplayTotalOrderAmount();
     }
 
 }
