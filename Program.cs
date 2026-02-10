@@ -78,14 +78,15 @@ void LoadCustomersAndOrders()
         line = sr.ReadLine();
         while ((line = sr.ReadLine()) != null)
         {
-            string[] order_attributes = line.Split(",");
+            string[] order_details = line.Split('"');
+            string[] order_attributes = order_details[0].Split(",");
             string[] deliverydate_attributes = order_attributes[3].Split("/");
             string[] deliverytime_attributes = order_attributes[4].Split(":");
             string[] orderdate_time = order_attributes[6].Split(" ");
             string[] orderdate_attributes = orderdate_time[0].Split("/");
             string[] ordertime_attributes = orderdate_time[1].Split(":");
 
-            string[] orderedfooditemlist = order_attributes[9].Split("|");
+            string[] orderedfooditemlist = order_details[1].Split("|");
 
             DateTime deliverydatetime = new DateTime(Convert.ToInt32(deliverydate_attributes[2]), Convert.ToInt32(deliverydate_attributes[1]), Convert.ToInt32(deliverydate_attributes[0]), Convert.ToInt32(deliverytime_attributes[0]), Convert.ToInt32(deliverytime_attributes[1]), DateTime.Now.Second);
             DateTime orderdatetime = new DateTime(Convert.ToInt32(orderdate_attributes[2]), Convert.ToInt32(orderdate_attributes[1]), Convert.ToInt32(orderdate_attributes[0]), Convert.ToInt32(ordertime_attributes[0]), Convert.ToInt32(ordertime_attributes[1]), DateTime.Now.Second);
@@ -142,6 +143,9 @@ string Display_Gruberoo_Food_deliver_System_Menu()
     Console.WriteLine("1. List all restaurants and menu items");
     Console.WriteLine("2. List all orders");
     Console.WriteLine("3. Create a new order");
+    Console.WriteLine("4. Process an order");
+    Console.WriteLine("5. Modify an existing order");
+    Console.WriteLine("6. Delete an existing order");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
     string choice = Console.ReadLine();
@@ -200,6 +204,7 @@ void CreateOrder()
     OrderedFoodItem orderedFoodItem = new OrderedFoodItem();
     double total = 0;
     string payment_method = "";
+    string delivery_address = "";
 
 
     while (true)
@@ -297,8 +302,22 @@ void CreateOrder()
     }
 
 
-    Console.Write("Enter Delivery Address: ");
-    string delivery_address = Console.ReadLine();
+    while (true)
+    {
+        Console.Write("Enter Delivery Address: ");
+        delivery_address = Console.ReadLine();
+        if (delivery_address != "")
+        {
+            break;
+        }
+
+        else
+        {
+            Console.WriteLine("Address cannot be empty");
+        }
+
+
+    }
 
     Console.WriteLine();
     Console.WriteLine("Available Food Items:");
@@ -469,6 +488,8 @@ void CreateOrder()
                         }
                     }
 
+                    Order_List.Add(order);
+
                     items_list.Remove(items_list.Length - 1);
 
                     using (StreamWriter sw = new StreamWriter("orders.csv", true))
@@ -498,6 +519,344 @@ void CreateOrder()
 }
 
 
+
+void ModifyOrder()
+{
+    string customer_email;
+    int orderid;
+    Console.WriteLine();
+    Console.WriteLine("Modify Order");
+    Console.WriteLine("============");
+    int customer_index = 0;
+    int order_index = 0;
+    int count = 0;
+    List<int> orderid_list = new List<int>();
+    Order Order = new Order();
+    string address = "";
+    int itemnumber = 0;
+    int qty = 0;
+    string payment_option = "";
+
+    while (true)
+    {
+        int c = 0;
+        Console.Write("Enter Customer Email: ");
+        customer_email = Console.ReadLine();
+        foreach (Customer customer in Customer_List)
+        {
+            if (customer_email == customer.EmailAddress)
+            {
+                c += 1;
+                break;
+            }
+        }
+        if (c == 0)
+        {
+            Console.WriteLine("Please enter a valid email address");
+        }
+        else
+        {
+            break;
+        }
+
+
+    }
+
+
+
+    for (int i = 0; i < Customer_List.Count; i++)
+    {
+        if (Customer_List[i].EmailAddress == customer_email)
+        {
+            customer_index = i;
+            break;
+        }
+    }
+
+    Console.WriteLine("Pending Orders:");
+
+    foreach (Order order in Customer_List[customer_index].Order_List)
+    {
+        if (order.OrderStatus == "Pending")
+        {
+            orderid_list.Add(order.OrderId);
+            Console.WriteLine(order.OrderId);
+            count += 1;
+        }
+
+    }
+
+
+
+    if (count <= 0)
+    {
+        Console.WriteLine("You have no pending orders to modify");
+    }
+    else
+    {
+        while (true)
+        {
+            try
+            {
+                Console.Write("Enter Order ID: ");
+                orderid = Convert.ToInt32(Console.ReadLine());
+                if (orderid_list.Contains(orderid) == false)
+                {
+                    Console.WriteLine("Please enter a correct pending order id");
+                    continue;
+                }
+                else
+                {
+
+
+                    for (int i = 0; i < Customer_List[customer_index].Order_List.Count; i++)
+                    {
+                        if (Customer_List[customer_index].Order_List[i].OrderId == orderid)
+                        {
+                            order_index = i;
+                            break;
+                        }
+                    }
+
+                    Console.WriteLine("Order Items:");
+
+                    for (int j = 0; j < Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List.Count; j++)
+                    {
+
+                        Console.WriteLine($"{j + 1 + ".",-2} {Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[j].ItemName,-11} - {Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[j].QtyOrdered}");
+                    }
+
+
+
+                    Console.WriteLine("Address:");
+                    Console.WriteLine(Customer_List[customer_index].Order_List[order_index].DeliveryAddress);
+
+                    Console.WriteLine("Delivery Date/Time:");
+                    Console.WriteLine($"{Customer_List[customer_index].Order_List[order_index].DeliveryDateTime.ToString("dd/MM/yyyy, HH:mm")}");
+
+
+                    break;
+
+
+
+                }
+            }
+
+            catch (FormatException ex)
+            {
+                Console.WriteLine("Please enter numbers only");
+            }
+
+
+        }
+    }
+
+
+
+
+
+
+    Console.WriteLine();
+
+
+
+
+    while (true)
+    {
+        try
+        {
+            Console.Write("Modify: [1] Items [2] Address [3] Delivery Time: ");
+            int option = Convert.ToInt32(Console.ReadLine());
+
+
+
+
+            if (option == 1)
+            {
+
+
+
+                while (true)
+                {
+                    try
+                    {
+                        Console.Write("Enter the item number that you want to modify (0 to finish): ");
+                        itemnumber = Convert.ToInt32(Console.ReadLine());
+
+                        if (itemnumber < 0 || itemnumber > Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List.Count)
+                        {
+                            Console.WriteLine("Please only enter a valid item number");
+                            continue;
+                        }
+
+                        break;
+                    }
+
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Please only enter a number");
+                    }
+                }
+
+
+                while (true)
+                {
+                    try
+                    {
+                        Console.Write("Enter new quantity for ordered item: ");
+                        qty = Convert.ToInt32(Console.ReadLine());
+                        if (qty < 0)
+                        {
+                            Console.WriteLine("PLease enter positive number for the quantity");
+                            continue;
+                        }
+
+
+                        break;
+
+                    }
+
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Please only enter a number");
+                    }
+                }
+
+                if (qty > Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered)
+                {
+                    Console.WriteLine($"Additional payment required: ${(qty - Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered) * Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemPrice}");
+
+
+                    while (true)
+                    {
+                        Console.Write("Proceed to payment? [Y/N]: ");
+
+                        payment_option = Console.ReadLine();
+
+                        if (payment_option != "N" && payment_option != "Y")
+                        {
+                            Console.WriteLine("Please Enter a valid option");
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
+
+                    if (payment_option == "Y")
+                    {
+                        Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered = qty;
+                        Console.WriteLine();
+                        Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. Changed {Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemName} to {qty}");
+                        Console.WriteLine();
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                    }
+
+                }
+
+                else if (qty < Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered)
+                {
+                    Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered = qty;
+                    Console.WriteLine($"Refund amount: {(Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].QtyOrdered - qty) * Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemPrice}");
+                    Console.WriteLine();
+                    Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. Changed {Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].ItemName} to {qty}");
+                    Console.WriteLine();
+                }
+
+                Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].SubTotal = Customer_List[customer_index].Order_List[order_index].OrderedFoodItems_List[itemnumber - 1].CalculateSubTotal();
+                Customer_List[customer_index].Order_List[order_index].OrderTotal = Customer_List[customer_index].Order_List[order_index].CalculateOrderTotal() + 5.0;
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+            if (option == 2)
+            {
+                while (true)
+                {
+                    Console.Write("Enter new Address: ");
+                    address = Console.ReadLine();
+                    if (address != "")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Address cannot be empty");
+                    }
+                }
+
+                Customer_List[customer_index].Order_List[order_index].DeliveryAddress = address;
+
+                Console.WriteLine();
+                Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. New Delivery Address: {Customer_List[customer_index].Order_List[order_index].DeliveryAddress}");
+
+
+
+            }
+
+            if (option == 3)
+            {
+
+
+                while (true)
+                {
+                    try
+                    {
+                        Console.Write("Enter new Delivery Time (hh:mm): ");
+                        DateTime deliverytime = Convert.ToDateTime(Console.ReadLine());
+                        Order = Customer_List[customer_index].Order_List[order_index];
+                        Customer_List[customer_index].Order_List[order_index].DeliveryDateTime = new DateTime(Order.DeliveryDateTime.Year, Order.DeliveryDateTime.Month, Order.DeliveryDateTime.Day, deliverytime.Hour, deliverytime.Minute, Order.DeliveryDateTime.Second);
+                        Console.WriteLine();
+                        Console.WriteLine($"Order {Customer_List[customer_index].Order_List[order_index].OrderId} updated. New Delivery Time: {Customer_List[customer_index].Order_List[order_index].DeliveryDateTime.Hour}:{Customer_List[customer_index].Order_List[order_index].DeliveryDateTime.Minute}");
+
+                        break;
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Please enter time in the correct format");
+                    }
+                }
+
+
+
+            }
+            if (option != 1 && option != 2 && option != 3)
+            {
+                Console.WriteLine("PLease enter a valid option");
+                continue;
+            }
+
+            break;
+
+        }
+
+        catch (FormatException ex)
+        {
+            Console.WriteLine("Please only enter a number");
+        }
+
+    }
+
+
+
+
+
+
+
+}
 
 
 
@@ -535,6 +894,12 @@ while (true)
     {
         CreateOrder();
     }
+    else if (option == "5")
+    {
+        ModifyOrder();
+    }
 
 }
+
+
 
